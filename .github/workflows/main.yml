@@ -1,0 +1,32 @@
+name: CI Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code 🔽
+        uses: actions/checkout@v3
+
+      - name: Set up Java 17 ☕
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Install secure-properties-tool JAR locally 🧩
+        run: mvn install:install-file \
+          -Dfile=lib/secure-properties-tool-j17.jar \
+          -DgroupId=com.mulesoft.tools \
+          -DartifactId=secure-properties-tool \
+          -Dversion=1.0 \
+          -Dpackaging=jar
+
+      - name: Build with Maven ⚙
+        run: mvn clean install
