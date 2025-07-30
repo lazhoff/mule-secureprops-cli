@@ -6,10 +6,10 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.lazhoff.mule.secureprops</groupId>
-    <artifactId>mule-secureprops-cli</artifactId>
+    <groupId>com.lazhoff.mule</groupId>
+    <artifactId>secureprops</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>SecurePropertiesTool Decorator</name>
+    <name>mule-secureprops-cli</name>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
