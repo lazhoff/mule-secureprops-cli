@@ -44,7 +44,8 @@ if "%missing%"=="1" (
 
 set "muleSecurePropsCli=%securepropsHome%\mule-secureprops-cli.jar"
 
-set envKeyMapping="(secure-config-local.yaml):(%keyForLocal%),(secure-config-(dev|uat).yaml):(%keyForDev%),(secure-config-prod.yaml):(%keyForProd%)"
+
+set envKeyMapping="(local.postman_environment.json):(%keyForLocal%),((dev|uat).postman_environment.json):(%keyForDev%),(prod.postman_environment.json):(%keyForProd%),(.*.postman_collection.json):(%keyForDev%)"
 
 
 
