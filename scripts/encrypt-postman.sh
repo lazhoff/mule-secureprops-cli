@@ -42,7 +42,7 @@ fi
 # Run the CLI UI
 muleSecurePropsCli="$securepropsHome/mule-secureprops-cli.jar"
 
-envKeyMapping="(secure-config-local.yaml):(${keyForLocal}),(secure-config-(dev|uat).yaml):(${keyForDev}),(secure-config-prod.yaml):(${keyForProd})"
+envKeyMapping="(local.postman_environment.json):($keyForLocal),((dev|uat).postman_environment.json):($keyForDev),(prod.postman_environment.json):($keyForProd),(.*.postman_collection.json):($keyForDev)"
 
 
 
