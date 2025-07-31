@@ -3,6 +3,31 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+### Java defaults
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# Eclipse-specific
+*.pydevproject
+.metadata
+bin/**
+tmp/**
+tmp/**/*
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+.project
+.classpath
+
+
 ### IntelliJ IDEA ###
 .idea/modules.xml
 .idea/jarRepositories.xml
@@ -37,3 +62,5 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+
