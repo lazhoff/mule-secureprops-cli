@@ -32,4 +32,4 @@
 
 ## Security
 - Bundled MuleSoft secure-properties-tool handles encryption
-- Users are responsible for key storage
+- Users are responsible for key storage 
