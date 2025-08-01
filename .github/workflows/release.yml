@@ -1,0 +1,65 @@
+name: Release Build
+
+on:
+  push:
+    tags:
+      - 'v*'  # Triggers on tag push, e.g., v1.0.0
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Install secure-properties-tool JAR locally
+        run: |
+          mvn install:install-file \
+            -Dfile=lib/secure-properties-tool-j17.jar \
+            -DgroupId=com.mulesoft.tools \
+            -DartifactId=secure-properties-tool \
+            -Dversion=1.0 \
+            -Dpackaging=jar
+
+      - name: Build shaded JAR with Maven
+        run: mvn clean package
+
+      - name: Make scripts executable and list
+        run: |
+          chmod +x scripts/*.sh
+          ls -l scripts/
+
+      - name: Prepare release folder
+        run: |
+          mkdir release
+
+          # Copy and rename shaded JAR
+          cp mule-secureprops-cli/target/secureprops-1.0-SNAPSHOT.jar release/mule-secureprops-cli.jar
+
+          # Copy all scripts
+          cp scripts/*.bat release/
+          cp scripts/*.sh release/
+
+          # Copy readme
+          cp scripts/readme.txt release/
+
+      - name: Create ZIP archive
+        run: |
+          cd release
+          zip -r ../secureprops-${{ github.ref_name }}.zip .
+
+      - name: Upload ZIP to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: SecureProps ${{ github.ref_name }}
+          tag_name: ${{ github.ref_name }}
+          files: secureprops-${{ github.ref_name }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
