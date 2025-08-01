@@ -74,7 +74,7 @@ into your local Maven repository:
 linux
 ```sh
 mvn install:install-file \
-  -Dfile=lib/secure-properties-tool-j17.jar \
+  -Dfile=vendor/secure-properties-tool-j17.jar \
   -DgroupId=com.mulesoft.tools \
   -DartifactId=secure-properties-tool \
   -Dversion=1.0 \
@@ -84,7 +84,7 @@ mvn install:install-file \
 windows
 ```sh
 mvn install:install-file ^
-  -Dfile=lib/secure-properties-tool-j17.jar ^
+  -Dfile=vendor/secure-properties-tool-j17.jar ^
   -DgroupId=com.mulesoft.tools ^
   -DartifactId=secure-properties-tool ^
   -Dversion=1.0 ^
