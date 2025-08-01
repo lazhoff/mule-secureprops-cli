@@ -39,7 +39,7 @@ jobs:
       - name: Prepare release folder
         run: |
           mkdir release
-          cp mule-secureprops-cli/target/secureprops-1.0-SNAPSHOT.jar release/mule-secureprops-cli.jar
+          cp target/secureprops-1.0-SNAPSHOT.jar release/mule-secureprops-cli.jar
           cp -r lib release/
           cp scripts/*.bat release/
           cp scripts/*.sh release/
