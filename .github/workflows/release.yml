@@ -45,6 +45,10 @@ jobs:
           cp scripts/*.sh release/
           cp scripts/readme.txt release/
           echo "${{ github.ref_name }}" | sed 's/^v//' > release/VERSION
+          mkdir -p release/.secureprops
+          cp scripts/.secureprops/config.json release/.secureprops/
+          mkdir -p release/examples
+          cp scripts/examples/*.* release/examples
 
       - name: Create ZIP archive
         run: |

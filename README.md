@@ -101,7 +101,7 @@ without needing internet access.
 
 ## Installation
 
-Download the release archive 📦 [`secureprops-v1.0.1.zip`](https://github.com/lazhoff/mule-secureprops-cli/releases) and extract it to a utility folder of your choice:
+Download the release archive 📦 [`secureprops-vx.y.z.zip`](https://github.com/lazhoff/mule-secureprops-cli/releases) and extract it to a utility folder of your choice:
 
 Examples:
 - `C:\tools\secureprops` on Windows

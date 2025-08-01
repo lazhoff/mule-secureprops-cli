@@ -1,0 +1,11 @@
+{
+  "lastFolder" : "c:",
+  "backup" : true,
+  "dryRun" : false,
+  "debug" : false,
+  "envKeyMappingPostman" : "(local.postman_environment.json):(dummyKeyLOCAL123),((dev|uat|test|mock).postman_environment.json):(devSecretKey1234),(.*.postman_collection.json):(devSecretKey1234),(prod.postman_environment.json):(prodSecretKey123)",
+  "envKeyMappingProperties" : "(secure-config-local.yaml):(dummyKeyLOCAL123),(secure-config-(dev|uat|test|mock|mock_dev).yaml):(devSecretKey1234),(secure-config-prod.yaml):(prodSecretKey123)",
+  "algorithm" : "AES",
+  "mode" : "CBC",
+  "useRandomIV" : true
+}
