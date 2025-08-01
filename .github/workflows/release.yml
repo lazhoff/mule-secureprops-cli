@@ -22,7 +22,7 @@ jobs:
       - name: Install secure-properties-tool JAR locally
         run: |
           mvn install:install-file \
-            -Dfile=lib/secure-properties-tool-j17.jar \
+            -Dfile=vendor/secure-properties-tool-j17.jar \
             -DgroupId=com.mulesoft.tools \
             -DartifactId=secure-properties-tool \
             -Dversion=1.0 \
@@ -40,10 +40,11 @@ jobs:
         run: |
           mkdir release
           cp target/secureprops-1.0-SNAPSHOT.jar release/mule-secureprops-cli.jar
-          cp -r lib release/
+          cp -r vendor release/
           cp scripts/*.bat release/
           cp scripts/*.sh release/
           cp scripts/readme.txt release/
+          echo "${{ github.ref_name }}" | sed 's/^v//' > release/VERSION
 
       - name: Create ZIP archive
         run: |

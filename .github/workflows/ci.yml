@@ -23,7 +23,7 @@ jobs:
       - name: Install secure-properties-tool JAR locally 🧩
         run: |
            mvn install:install-file \
-              -Dfile=lib/secure-properties-tool-j17.jar \
+              -Dfile=vendor/secure-properties-tool-j17.jar \
               -DgroupId=com.mulesoft.tools \
               -DartifactId=secure-properties-tool \
               -Dversion=1.0 \
