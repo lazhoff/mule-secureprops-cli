@@ -99,46 +99,70 @@ without needing internet access.
 
 
 
-
 ## Installation
-Download the release archive 📦 secureprops-v1.0.1.zip:
-- https://github.com/lazootkin/mulesoft-secureprops/releases
-   
 
-Extract the archive to a utility folder of your choice (e.g., C:\tools\secureprops or ~/utils/secureprops):
+Download the release archive 📦 [`secureprops-v1.0.1.zip`](https://github.com/lazhoff/mule-secureprops-cli/releases) and extract it to a utility folder of your choice:
 
-```sh
-C:\tools\secureprops\
-  ├── decrypt-postman.bat
-  ├── decrypt-props.bat
-  ├── encrypt-postman.bat
-  ├── encrypt-props.bat
-  ├── mule-secureprops-extension-1.0-SNAPSHOT.jar
-  ├── secure-properties-tool.jar
-  └── secure-properties-ui.bat
+Examples:
+- `C:\tools\secureprops` on Windows
+- `~/utils/secureprops` on Linux/macOS
+
+### Step 1: Unpack the Archive
+
 ```
-(Optional) Add to PATH:
-If you want to use the batch files (encrypt-*.bat, decrypt-*.bat, etc.) from any location, you can add the secureprops/ folder to your system PATH environment variable.
-
-### Run the UI Tool (Graphical mode):
-
-```sh
-secure-properties-ui.bat
+secureprops/
+├── install.bat                  # Windows installer
+├── install.sh                   # Linux/macOS installer
+├── mule-secureprops-cli.jar     # Main executable JAR
+├── secure-properties-tool.jar   # MuleSoft encryption library
+├── encrypt-props.bat / .sh      # CLI wrappers
+├── decrypt-props.bat / .sh
+├── encrypt-postman.bat / .sh
+├── decrypt-postman.bat / .sh
+├── secure-properties-ui.bat / .sh
+├── uninstall.bat                # Windows uninstaller
+├── uninstall.sh                 # Linux/macOS uninstaller
+└── readme.txt
 ```
 
-### Use the CLI (Script mode):
+### Step 2: Run the Installer
 
-With a specified folder:
+- On **Windows**, open Command Prompt as Administrator and run:
+  ```bat
+  install.bat
+  ```
 
+- On **Linux/macOS**, open Terminal and run:
+  ```bash
+  chmod +x install.sh
+  ./install.sh
+  ```
+
+The installer will:
+- Prompt you for the installation folder (or use default)
+- Copy all files
+- Set `securepropsHome` environment variable
+- Optionally add the folder to your `PATH`
+- Prompt you to define encryption keys
+
+### Step 3: Launch the Tool
+
+#### GUI Mode (Graphical):
+```sh
+secure-properties-ui.bat    # or ./secure-properties-ui.sh
+```
+
+#### CLI Mode (Scripted):
+
+With a folder path:
 ```sh
 encrypt-postman.bat path\to\configs
 ```
-Or using the current directory:
 
+Using the current directory:
 ```sh
 encrypt-props.bat
 ```
-
 
 
 
