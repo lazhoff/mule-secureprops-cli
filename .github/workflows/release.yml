@@ -39,15 +39,10 @@ jobs:
       - name: Prepare release folder
         run: |
           mkdir release
-
-          # Copy and rename shaded JAR
           cp mule-secureprops-cli/target/secureprops-1.0-SNAPSHOT.jar release/mule-secureprops-cli.jar
-
-          # Copy all scripts
+          cp -r lib release/
           cp scripts/*.bat release/
           cp scripts/*.sh release/
-
-          # Copy readme
           cp scripts/readme.txt release/
 
       - name: Create ZIP archive
