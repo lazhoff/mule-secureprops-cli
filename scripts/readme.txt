@@ -1,4 +1,4 @@
-SecureProps Tool - CLI & UI for MuleSoft Secure Properties
+git aSecureProps Tool - CLI & UI for MuleSoft Secure Properties
 ==========================================================
 
 ABOUT
