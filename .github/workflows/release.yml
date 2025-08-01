@@ -57,4 +57,4 @@ jobs:
           tag_name: ${{ github.ref_name }}
           files: secureprops-${{ github.ref_name }}.zip
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
