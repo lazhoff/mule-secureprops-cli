@@ -32,6 +32,7 @@ if not exist "%installDir%" (
 :: Copy files from script directory to install directory
 echo Copying SecureProps files...
 xcopy "%scriptDir%*" "%installDir%\" /E /I /Y >nul
+del /Q "%installDir%\*.sh"
 
 :: Set securepropsHome variable permanently
 echo Setting environment variable securepropsHome...

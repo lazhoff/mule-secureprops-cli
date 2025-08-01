@@ -28,6 +28,7 @@ mkdir -p "$install_dir"
 # Copy files
 echo "Copying SecureProps files..."
 cp -r "$script_dir/"* "$install_dir/"
+find "$install_dir" -type f -name '*.bat' -delete
 
 # Set securepropsHome in shell config
 echo ""

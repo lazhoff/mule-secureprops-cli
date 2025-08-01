@@ -69,19 +69,7 @@ java -jar mule-secureprops-extension.jar decrypt ./example.yaml AES CBC dummyKey
   pre-populated local repository) for the tests to run successfully.
 
 Before building from source, install the bundled Secure Properties Tool
-into your local Maven repository:
-
-linux
-```sh
-mvn install:install-file \
-  -Dfile=vendor/secure-properties-tool-j17.jar \
-  -DgroupId=com.mulesoft.tools \
-  -DartifactId=secure-properties-tool \
-  -Dversion=1.0 \
-  -Dpackaging=jar
-```
-
-windows
+into your local Maven repository: 
 ```sh
 mvn install:install-file ^
   -Dfile=vendor/secure-properties-tool-j17.jar ^
