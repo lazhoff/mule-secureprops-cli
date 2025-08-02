@@ -55,7 +55,7 @@ if "%~1"=="" (
     set "directory=%~1"
 )
 
-java -jar "%muleSecurePropsCli%" encrypt file %directory% AES CBC false --envKeyMapping=%envKeyMapping% --tmp=.
+java -jar "%muleSecurePropsCli%" encrypt file %directory% AES CBC true --envKeyMapping=%envKeyMapping% --tmp=.
 
 
 

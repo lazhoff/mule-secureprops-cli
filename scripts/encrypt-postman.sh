@@ -54,4 +54,4 @@ else
 fi
 
 
-java -jar $muleSecurePropsCli encrypt file-level $directory AES CBC false  --envKeyMapping=$envKeyMapping  --tmp=.
+java -jar $muleSecurePropsCli encrypt file-level $directory AES CBC true  --envKeyMapping=$envKeyMapping  --tmp=.

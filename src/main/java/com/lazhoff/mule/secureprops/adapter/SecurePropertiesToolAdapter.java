@@ -26,7 +26,7 @@ public class SecurePropertiesToolAdapter implements SecurePropertiesToolRunner {
         logger.info("Running SecurePropertiesTool with type={}, action={}, algorithm={}, mode={}",
                 config.getType(), config.getAction(), config.getAlgorithm(), config.getMode());
 
-        logger.debug("Configuration details:\n" +
+        logger.info("Configuration details:\n" +
                         "  key           = {}\n" +
                         "  useRandomIV   = {}\n" +
                         "  inputString   = {}\n" +
