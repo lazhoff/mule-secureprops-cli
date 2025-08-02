@@ -134,7 +134,7 @@ public class SecurePropertiesToolAdapter implements SecurePropertiesToolRunner {
     }
 
 
-    private ExecutionResult applyHoleFile(SecurePropertiesConfig config) {
+    private ExecutionResult applyHoleFileWithBug(SecurePropertiesConfig config) {
         logger.debug("Executing whole file operation...");
 
         PrintStream originalOut = System.out;
@@ -188,4 +188,60 @@ public class SecurePropertiesToolAdapter implements SecurePropertiesToolRunner {
     }
 
 
+    private ExecutionResult applyHoleFile(SecurePropertiesConfig config) {
+        logger.debug("Executing whole file operation...");
+
+        PrintStream originalOut = System.out;
+        PrintStream originalErr = System.err;
+
+        ByteArrayOutputStream outBuffer = new ByteArrayOutputStream();
+        ByteArrayOutputStream errBuffer = new ByteArrayOutputStream();
+
+        try (PrintStream out = new PrintStream(outBuffer);
+             PrintStream err = new PrintStream(errBuffer)) {
+
+            applyHoleFileFixed(
+                    config.getAction().toString(),
+                    config.getAlgorithm(),
+                    config.getMode(),
+                    config.getKey(),
+                    config.isUseRandomIV(),
+                    config.getInputFile(),
+                    config.getOutputFile()
+            );
+
+            logger.debug("File stdout:\n{}", outBuffer.toString());
+            logger.debug("File stderr:\n{}", errBuffer.toString());
+            logger.info("Operation completed successfully (file).");
+
+            return new ExecutionResult(0, outBuffer.toString(), errBuffer.toString());
+
+        } catch (Throwable t) {
+            logger.error("File operation failed: {}", t.toString(), t);
+            return new ExecutionResult(-2, outBuffer.toString(), errBuffer.toString());
+        } finally {
+            System.setOut(originalOut);
+            System.setErr(originalErr);
+            logger.debug("System.out and System.err restored.");
+        }
+    }
+
+    private void applyHoleFileFixed(String string, String algorithm, String mode, String key, boolean useRandomIV, String inputFile, String outputFile) {
+//        String inputFilePath, String outputFilePath) throws IOException, MuleEncryptionException {
+//            File inputFile = new File(inputFilePath);
+//            InputStream stream = new FileInputStream(inputFile);
+//            byte[] bytes = IOUtils.toByteArray(stream);
+//            byte[] result;
+//            if (action.equals("encrypt")) {
+//                result = encrypt(bytes, algorithm, mode, key, useRandomIVs);
+//            } else {
+//                result = decrypt(bytes, algorithm, mode, key, useRandomIVs);
+//            }
+//
+//            FileUtils.writeByteArrayToFile(new File(outputFilePath), result);
+        return;
+    }
+
+
 }
+
