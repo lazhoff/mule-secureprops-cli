@@ -130,7 +130,7 @@ public class CryptoExecutor {
     }
 
     private static boolean isFileEndValid(String name) {
-        return isFileEndYamlValid(name) && isFileEndJsonValid(name);
+        return isFileEndYamlValid(name) || isFileEndJsonValid(name);
     }
     private static boolean isFileEndJsonValid(String name) {
         return name.endsWith(".json")  ;
@@ -141,7 +141,7 @@ public class CryptoExecutor {
 
     private ICryptoService resolveService(Path file, CryptoConfig config) {
         if (baseConfig.getFileOrLine() == CryptoConfig.FileOrLine.WHOLE_FILE) {
-            //return new DefaultCryptoServiceFileLevel(config);
+        //    return new DefaultCryptoServiceFileLevel(config);
             return new DefaultCryptoServiceWholeFile(config);
         }
 
