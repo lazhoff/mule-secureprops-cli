@@ -3,6 +3,7 @@ package com.lazhoff.mule.secureprops.crypto;
 import com.lazhoff.mule.secureprops.adapter.SecurePropertiesConfig;
 import com.lazhoff.mule.secureprops.adapter.SecurePropertiesToolAdapter;
 import com.lazhoff.mule.secureprops.adapter.SecurePropertiesToolRunner;
+import com.lazhoff.mule.secureprops.util.TempFileManager;
 import com.mulesoft.tools.SecurePropertiesTool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,12 +19,14 @@ public class DefaultCryptoServiceFileLevel implements ICryptoService, SupportsPr
 
     private static final Logger logger = LogManager.getLogger(DefaultCryptoServiceFileLevel.class);
     private final SecurePropertiesToolRunner runner;
+    private final TempFileManager tempFileManager;
 
     private final CryptoConfig config;
 
     public DefaultCryptoServiceFileLevel(CryptoConfig config) {
         this.config = config;
         this.runner = new SecurePropertiesToolAdapter();
+        this.tempFileManager = new TempFileManager(config.getTempFolder());
     }
 
     @Override
@@ -86,7 +89,7 @@ public class DefaultCryptoServiceFileLevel implements ICryptoService, SupportsPr
                 logger.info("Backup created: {}", backup);
             }
 
-            temp = Files.createTempFile("secure-file-", ".tmp");
+            temp = tempFileManager.createTempSecureFile();
             Files.writeString(temp, processedContent, StandardCharsets.UTF_8);
             Files.move(temp, file, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
             logger.info("{} completed and file updated: {}", isEncrypt ? "Encryption" : "Decryption", file);
@@ -97,7 +100,7 @@ public class DefaultCryptoServiceFileLevel implements ICryptoService, SupportsPr
             logger.error("Failed to {} file {}: {}", isEncrypt ? "encrypt" : "decrypt", file, e.toString(), e);
             return FAILED;
         } finally {
-            deleteTempFile(temp);
+            tempFileManager.cleanAllTempFiles();
         }
     }
 
@@ -142,17 +145,6 @@ public class DefaultCryptoServiceFileLevel implements ICryptoService, SupportsPr
 
         return result.output;
 
-    }
-
-    private void deleteTempFile(Path temp) {
-        if (temp != null) {
-            try {
-                Files.deleteIfExists(temp);
-                logger.debug("Temporary file deleted: {}", temp);
-            } catch (IOException e) {
-                logger.warn("Could not delete temp file: {}", temp, e);
-            }
-        }
     }
 
     @Override

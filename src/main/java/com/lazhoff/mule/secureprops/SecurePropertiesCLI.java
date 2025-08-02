@@ -4,7 +4,7 @@ import com.lazhoff.mule.secureprops.crypto.CryptoConfig;
 import com.lazhoff.mule.secureprops.crypto.CryptoExecutor;
 import com.lazhoff.mule.secureprops.crypto.CryptoExecutionResult;
 import com.lazhoff.mule.secureprops.report.ExecutionReporter;
-import com.lazhoff.mule.secureprops.ui.MainUI;
+import com.lazhoff.mule.secureprops.gui.MainUI;
 import com.lazhoff.mule.secureprops.util.TempFileManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

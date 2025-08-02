@@ -1,5 +1,5 @@
 
-package com.lazhoff.mule.secureprops.ui;
+package com.lazhoff.mule.secureprops.gui;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

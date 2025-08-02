@@ -110,20 +110,10 @@ public class DefaultCryptoServiceWholeFile implements ICryptoService {
             logger.error("Exception during {}: {}", action, e.toString(), e);
             return FAILED;
         } finally {
-            deleteTempFile(temp);
+            tempFileManager.cleanAllTempFiles();
         }
     }
 
-    private void deleteTempFile(Path temp) {
-        if (temp != null) {
-            try {
-                Files.deleteIfExists(temp);
-                logger.debug("Temporary file deleted: {}", temp);
-            } catch (IOException e) {
-                logger.warn("Could not delete temp file: {}", temp);
-            }
-        }
-    }
 
 
 

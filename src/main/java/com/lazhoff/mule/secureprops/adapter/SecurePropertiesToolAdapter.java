@@ -39,7 +39,6 @@ public class SecurePropertiesToolAdapter implements SecurePropertiesToolRunner {
             switch (config.getType()) {
                 case STRING:
                     return applyOverString(config);
-
                 case FILE:
                     return applyOverFile(config);
                 case WHOLE_FILE:

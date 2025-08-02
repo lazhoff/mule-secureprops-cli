@@ -52,7 +52,6 @@ public class DefaultCryptoServiceYaml implements ICryptoService, SupportsPreview
         Path temp = null;
 
         try {
-            //temp = Files.createTempFile("secure-yaml-", ".tmp.yaml");
             temp = tempFileManager.createTempSecureYamlFile();
 
             logger.info("{} started: {}", action, file);
@@ -97,20 +96,11 @@ public class DefaultCryptoServiceYaml implements ICryptoService, SupportsPreview
             logger.error("Exception during {}: {}", action, e.toString(), e);
             return FAILED;
         } finally {
-            deleteTempFile(temp);
+            // deleteTempFile(temp);
+            tempFileManager.cleanAllTempFiles();
         }
     }
 
-    private void deleteTempFile(Path temp) {
-        if (temp != null) {
-            try {
-                Files.deleteIfExists(temp);
-                logger.debug("Temporary file deleted: {}", temp);
-            } catch (IOException e) {
-                logger.warn("Could not delete temp file: {}", temp);
-            }
-        }
-    }
 
     @SuppressWarnings("unchecked")
     private boolean isAlreadyEncrypted(Path file) {
@@ -151,8 +141,6 @@ public class DefaultCryptoServiceYaml implements ICryptoService, SupportsPreview
     }
 
     private String transformYamlContent(String input, SecurePropertiesConfig.Action action) throws Exception {
-//        Path tempInput = Files.createTempFile("preview-yaml-", ".in.yaml");
-//        Path tempOutput = Files.createTempFile("preview-yaml-", ".out.yaml");
         Path tempInput = tempFileManager.createTempPreviewInYamlFile();
         Path tempOutput = tempFileManager.createTempPreviewOutYamlFile();
 
@@ -180,8 +168,7 @@ public class DefaultCryptoServiceYaml implements ICryptoService, SupportsPreview
             return Files.readString(tempOutput);
 
         } finally {
-            deleteTempFile(tempInput);
-            deleteTempFile(tempOutput);
+            tempFileManager.cleanAllTempFiles();
         }
     }
 }

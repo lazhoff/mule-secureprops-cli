@@ -6,11 +6,15 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.nio.file.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class TempFileManager {
 
     private static final Logger logger = LogManager.getLogger(TempFileManager.class);
 
     private final Path tempDir;
+    private final Set<Path> trackedTempFiles = new HashSet<>();
 
     public TempFileManager(Path tempDir) {
         logger.debug("tempDir: {}",tempDir.toAbsolutePath().toString());
@@ -20,27 +24,48 @@ public class TempFileManager {
     public static Path getSystemPathDir() { return Path.of(System.getProperty("java.io.tmpdir")); }
 
     public Path createTempSecureYamlFile() throws IOException {
-        return Files.createTempFile(tempDir, "secure-yaml-", ".tmp.yaml");
+        Path file = Files.createTempFile(tempDir, "secure-yaml-", ".tmp.yaml");
+        trackedTempFiles.add(file);
+        return file;
     }
 
     public Path createTempSecureFile() throws IOException {
-        return Files.createTempFile(tempDir, "secure-file-", ".tmp");
+        Path file = Files.createTempFile(tempDir, "secure-file-", ".tmp");
+        trackedTempFiles.add(file);
+        return file;
     }
 
     public Path createTempPreviewInYamlFile() throws IOException {
-        return Files.createTempFile(tempDir, "preview-yaml-", ".in.yaml");
+        Path file = Files.createTempFile(tempDir, "preview-yaml-", ".in.yaml");
+        trackedTempFiles.add(file);
+        return file;
     }
 
     public Path createTempPreviewOutYamlFile() throws IOException {
-        return Files.createTempFile(tempDir, "preview-yaml-", ".out.yaml");
+        Path file = Files.createTempFile(tempDir, "preview-yaml-", ".out.yaml");
+        trackedTempFiles.add(file);
+        return file;
     }
 
-    public void cleanAllTempFiles() {
+    public void cleanAllByPattern() {
         cleanByPattern("secure-yaml-", ".tmp.yaml");
         cleanByPattern("preview-yaml-", ".in.yaml");
         cleanByPattern("preview-yaml-", ".out.yaml");
         cleanByPattern("secure-file-", ".tmp");
     }
+
+public void cleanAllTempFiles() {
+    for (Path file : trackedTempFiles) {
+        try {
+            Files.deleteIfExists(file);
+            logger.debug("Deleted tracked temp file: {}", file);
+        } catch (IOException e) {
+            logger.warn("Failed to delete tracked temp file: {}", file, e);
+        }
+    }
+    trackedTempFiles.clear();
+}
+
 
     private void cleanByPattern(String prefix, String suffix) {
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(tempDir)) {

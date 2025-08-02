@@ -1,5 +1,5 @@
 
-package com.lazhoff.mule.secureprops.ui;
+package com.lazhoff.mule.secureprops.gui;
 
 public class UISettings {
 

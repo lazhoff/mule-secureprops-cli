@@ -1,4 +1,4 @@
-package com.lazhoff.mule.secureprops.ui;
+package com.lazhoff.mule.secureprops.gui;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
