@@ -24,7 +24,6 @@ public class DefaultCryptoServiceYaml implements ICryptoService, SupportsPreview
     private final SecurePropertiesToolRunner runner;
     private final TempFileManager tempFileManager;
 
-
     public DefaultCryptoServiceYaml(CryptoConfig config) {
         this.config = config;
         this.tempFileManager = new TempFileManager(config.getTempFolder());
@@ -139,7 +138,7 @@ public class DefaultCryptoServiceYaml implements ICryptoService, SupportsPreview
         return false;
     }
 
-    // === SupportsPreview implementation ===
+     
 
     @Override
     public String previewEncrypt(String input) throws Exception {

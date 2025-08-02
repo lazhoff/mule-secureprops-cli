@@ -1,5 +1,8 @@
 package com.lazhoff.mule.secureprops.crypto;
 
+import com.lazhoff.mule.secureprops.adapter.SecurePropertiesConfig;
+import com.lazhoff.mule.secureprops.adapter.SecurePropertiesToolAdapter;
+import com.lazhoff.mule.secureprops.adapter.SecurePropertiesToolRunner;
 import com.mulesoft.tools.SecurePropertiesTool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,11 +17,13 @@ import static com.lazhoff.mule.secureprops.crypto.CryptoExecutionResult.Status.*
 public class DefaultCryptoServiceFileLevel implements ICryptoService, SupportsPreview {
 
     private static final Logger logger = LogManager.getLogger(DefaultCryptoServiceFileLevel.class);
+    private final SecurePropertiesToolRunner runner;
 
     private final CryptoConfig config;
 
     public DefaultCryptoServiceFileLevel(CryptoConfig config) {
         this.config = config;
+        this.runner = new SecurePropertiesToolAdapter();
     }
 
     @Override
@@ -97,15 +102,22 @@ public class DefaultCryptoServiceFileLevel implements ICryptoService, SupportsPr
     }
 
     private String encryptValue(String plainText) throws Exception {
-        String encrypted = SecurePropertiesTool.applyOverString(
-                "encrypt",
+
+        SecurePropertiesConfig secureConfig = new SecurePropertiesConfig(
+                SecurePropertiesConfig.Type.STRING,
+                SecurePropertiesConfig.Action.ENCRYPT,
                 config.getAlgorithm(),
                 config.getMode(),
                 config.getKey(),
-                config.isUseRandomIV(),
-                plainText
+                plainText,
+                null,
+                null,
+                config.isUseRandomIV()
         );
-        return "![" + encrypted + "]";
+
+        SecurePropertiesToolAdapter.ExecutionResult result = runner.run(secureConfig);
+
+        return "![" + result.output + "]";
     }
 
     private String decryptValue(String encryptedText) throws Exception {
@@ -114,14 +126,22 @@ public class DefaultCryptoServiceFileLevel implements ICryptoService, SupportsPr
             raw = raw.substring(2, raw.length() - 1);
         }
 
-        return SecurePropertiesTool.applyOverString(
-                "decrypt",
+        SecurePropertiesConfig secureConfig = new SecurePropertiesConfig(
+                SecurePropertiesConfig.Type.STRING,
+                SecurePropertiesConfig.Action.DECRYPT,
                 config.getAlgorithm(),
                 config.getMode(),
                 config.getKey(),
-                config.isUseRandomIV(),
-                raw
+                raw,
+                null,
+                null,
+                config.isUseRandomIV()
         );
+
+        SecurePropertiesToolAdapter.ExecutionResult result = runner.run(secureConfig);
+
+        return result.output;
+
     }
 
     private void deleteTempFile(Path temp) {

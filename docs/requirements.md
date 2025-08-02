@@ -1,14 +1,14 @@
 # Requirements
 
 ## Features
-- Encrypt or decrypt `.properties` files and Postman `.json` collections
+- Encrypt or decrypt `.properties`, `.yaml` files and Postman `.json` collections
 - Works via CLI or cross-platform UI
 - Accepts single files or entire folders
 - Selects encryption key through environment variables (`keyForLocal`, `keyForDev`, `keyForProd`)
 - Requires Java 17+
 
 ## Input / Output
-- Only `.properties` and `.json` files are processed
+- Only `.properties`, `.yaml` and `.json` files are processed
 - Results are written in the same folder with `-encrypted`/`-decrypted` suffix
 - Each run produces a timestamped log
 - Optional report file for automation
@@ -32,4 +32,5 @@
 
 ## Security
 - Bundled MuleSoft secure-properties-tool handles encryption
-- Users are responsible for key storage 
+- Users are responsible for key storage
+

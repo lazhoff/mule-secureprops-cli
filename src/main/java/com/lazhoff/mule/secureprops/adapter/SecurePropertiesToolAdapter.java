@@ -8,6 +8,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.Arrays;
 
+
 public class SecurePropertiesToolAdapter implements SecurePropertiesToolRunner {
 
     private static final Logger logger = LogManager.getLogger(SecurePropertiesToolAdapter.class);
@@ -41,11 +42,12 @@ public class SecurePropertiesToolAdapter implements SecurePropertiesToolRunner {
         try {
             switch (config.getType()) {
                 case STRING:
-                    return processString(config);
+                    return applyOverString(config);
 
                 case FILE:
+                    return applyOverFile(config);
                 case WHOLE_FILE:
-                    return processFile(config);
+                    return applyHoleFile(config);
 
                 default:
                     String msg = "Unsupported config type: " + config.getType();
@@ -59,7 +61,7 @@ public class SecurePropertiesToolAdapter implements SecurePropertiesToolRunner {
     }
 
 
-    private ExecutionResult processString(SecurePropertiesConfig config) throws Exception {
+    private ExecutionResult applyOverString(SecurePropertiesConfig config) throws Exception {
         logger.debug("Executing string operation...");
 
         String result = SecurePropertiesTool.applyOverString(
@@ -77,8 +79,9 @@ public class SecurePropertiesToolAdapter implements SecurePropertiesToolRunner {
         return new ExecutionResult(0, result, "");
     }
 
-    private ExecutionResult processFile(SecurePropertiesConfig config) {
-        logger.debug("Executing file/wholeFile operation...");
+
+    private ExecutionResult applyOverFile(SecurePropertiesConfig config) {
+        logger.debug("Executing file operation...");
 
         PrintStream originalOut = System.out;
         PrintStream originalErr = System.err;
@@ -92,18 +95,81 @@ public class SecurePropertiesToolAdapter implements SecurePropertiesToolRunner {
             //System.setOut(out);
             //System.setErr(err);
 
-            String[] args = new String[]{
-                    config.getType().toString(),
+//            String[] args = new String[]{
+//                    config.getType().toString(),
+//                    config.getAction().toString(),
+//                    config.getAlgorithm(),
+//                    config.getMode(),
+//                    config.getKey(),
+//                    config.getInputFile(),
+//                    config.getOutputFile()
+//                  //  "--use-random-iv " + config.isUseRandomIV()
+//            };
+//            logger.debug("args:\n{}", Arrays.toString(args));
+
+            SecurePropertiesTool.applyOverFile(
                     config.getAction().toString(),
                     config.getAlgorithm(),
                     config.getMode(),
                     config.getKey(),
+                    config.isUseRandomIV(),
                     config.getInputFile(),
                     config.getOutputFile()
-                  //  "--use-random-iv " + config.isUseRandomIV()
-            };
-            logger.debug("args:\n{}", Arrays.toString(args));
-            SecurePropertiesTool.main(args);
+            );
+
+            logger.debug("File stdout:\n{}", outBuffer.toString());
+            logger.debug("File stderr:\n{}", errBuffer.toString());
+            logger.info("Operation completed successfully (file).");
+
+            return new ExecutionResult(0, outBuffer.toString(), errBuffer.toString());
+
+        } catch (Throwable t) {
+            logger.error("File operation failed: {}", t.toString(), t);
+            return new ExecutionResult(-2, outBuffer.toString(), errBuffer.toString());
+        } finally {
+            System.setOut(originalOut);
+            System.setErr(originalErr);
+            logger.debug("System.out and System.err restored.");
+        }
+    }
+
+
+    private ExecutionResult applyHoleFile(SecurePropertiesConfig config) {
+        logger.debug("Executing whole file operation...");
+
+        PrintStream originalOut = System.out;
+        PrintStream originalErr = System.err;
+
+        ByteArrayOutputStream outBuffer = new ByteArrayOutputStream();
+        ByteArrayOutputStream errBuffer = new ByteArrayOutputStream();
+
+        try (PrintStream out = new PrintStream(outBuffer);
+             PrintStream err = new PrintStream(errBuffer)) {
+
+            //System.setOut(out);
+            //System.setErr(err);
+
+//            String[] args = new String[]{
+//                    config.getType().toString(),
+//                    config.getAction().toString(),
+//                    config.getAlgorithm(),
+//                    config.getMode(),
+//                    config.getKey(),
+//                    config.getInputFile(),
+//                    config.getOutputFile()
+//                    //  "--use-random-iv " + config.isUseRandomIV()
+//            };
+//            logger.debug("args:\n{}", Arrays.toString(args));
+
+            SecurePropertiesTool.applyHoleFile(
+                    config.getAction().toString(),
+                    config.getAlgorithm(),
+                    config.getMode(),
+                    config.getKey(),
+                    config.isUseRandomIV(),
+                    config.getInputFile(),
+                    config.getOutputFile()
+            );
 
             logger.debug("File stdout:\n{}", outBuffer.toString());
             logger.debug("File stderr:\n{}", errBuffer.toString());
