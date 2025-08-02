@@ -141,8 +141,8 @@ public class CryptoExecutor {
 
     private ICryptoService resolveService(Path file, CryptoConfig config) {
         if (baseConfig.getFileOrLine() == CryptoConfig.FileOrLine.WHOLE_FILE) {
-            return new DefaultCryptoServiceFileLevel(config);
-        //    return new DefaultCryptoServiceWholeFile(config);
+        //    return new DefaultCryptoServiceFileLevel(config);
+            return new DefaultCryptoServiceWholeFile(config);
         }
 
         String name = file.getFileName().toString().toLowerCase();

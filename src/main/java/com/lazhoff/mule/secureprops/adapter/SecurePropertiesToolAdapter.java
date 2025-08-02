@@ -4,14 +4,10 @@ import com.mulesoft.tools.SecurePropertiesTool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import java.util.Arrays;
-
-
 public class SecurePropertiesToolAdapter implements SecurePropertiesToolRunner {
 
     private static final Logger logger = LogManager.getLogger(SecurePropertiesToolAdapter.class);
+    private final SecurePropertiesToolWrapper securePropertiesToolWrapper = new SecurePropertiesToolWrapper();
 
     public static class ExecutionResult {
         public final int exitCode;
@@ -83,30 +79,7 @@ public class SecurePropertiesToolAdapter implements SecurePropertiesToolRunner {
     private ExecutionResult applyOverFile(SecurePropertiesConfig config) {
         logger.debug("Executing file operation...");
 
-        PrintStream originalOut = System.out;
-        PrintStream originalErr = System.err;
-
-        ByteArrayOutputStream outBuffer = new ByteArrayOutputStream();
-        ByteArrayOutputStream errBuffer = new ByteArrayOutputStream();
-
-        try (PrintStream out = new PrintStream(outBuffer);
-             PrintStream err = new PrintStream(errBuffer)) {
-
-            //System.setOut(out);
-            //System.setErr(err);
-
-//            String[] args = new String[]{
-//                    config.getType().toString(),
-//                    config.getAction().toString(),
-//                    config.getAlgorithm(),
-//                    config.getMode(),
-//                    config.getKey(),
-//                    config.getInputFile(),
-//                    config.getOutputFile()
-//                  //  "--use-random-iv " + config.isUseRandomIV()
-//            };
-//            logger.debug("args:\n{}", Arrays.toString(args));
-
+        try {
             SecurePropertiesTool.applyOverFile(
                     config.getAction().toString(),
                     config.getAlgorithm(),
@@ -117,73 +90,11 @@ public class SecurePropertiesToolAdapter implements SecurePropertiesToolRunner {
                     config.getOutputFile()
             );
 
-            logger.debug("File stdout:\n{}", outBuffer.toString());
-            logger.debug("File stderr:\n{}", errBuffer.toString());
             logger.info("Operation completed successfully (file).");
-
-            return new ExecutionResult(0, outBuffer.toString(), errBuffer.toString());
-
+            return new ExecutionResult(0, "", "");
         } catch (Throwable t) {
             logger.error("File operation failed: {}", t.toString(), t);
-            return new ExecutionResult(-2, outBuffer.toString(), errBuffer.toString());
-        } finally {
-            System.setOut(originalOut);
-            System.setErr(originalErr);
-            logger.debug("System.out and System.err restored.");
-        }
-    }
-
-
-    private ExecutionResult applyHoleFileWithBug(SecurePropertiesConfig config) {
-        logger.debug("Executing whole file operation...");
-
-        PrintStream originalOut = System.out;
-        PrintStream originalErr = System.err;
-
-        ByteArrayOutputStream outBuffer = new ByteArrayOutputStream();
-        ByteArrayOutputStream errBuffer = new ByteArrayOutputStream();
-
-        try (PrintStream out = new PrintStream(outBuffer);
-             PrintStream err = new PrintStream(errBuffer)) {
-
-            //System.setOut(out);
-            //System.setErr(err);
-
-//            String[] args = new String[]{
-//                    config.getType().toString(),
-//                    config.getAction().toString(),
-//                    config.getAlgorithm(),
-//                    config.getMode(),
-//                    config.getKey(),
-//                    config.getInputFile(),
-//                    config.getOutputFile()
-//                    //  "--use-random-iv " + config.isUseRandomIV()
-//            };
-//            logger.debug("args:\n{}", Arrays.toString(args));
-
-            SecurePropertiesTool.applyHoleFile(
-                    config.getAction().toString(),
-                    config.getAlgorithm(),
-                    config.getMode(),
-                    config.getKey(),
-                    config.isUseRandomIV(),
-                    config.getInputFile(),
-                    config.getOutputFile()
-            );
-
-            logger.debug("File stdout:\n{}", outBuffer.toString());
-            logger.debug("File stderr:\n{}", errBuffer.toString());
-            logger.info("Operation completed successfully (file).");
-
-            return new ExecutionResult(0, outBuffer.toString(), errBuffer.toString());
-
-        } catch (Throwable t) {
-            logger.error("File operation failed: {}", t.toString(), t);
-            return new ExecutionResult(-2, outBuffer.toString(), errBuffer.toString());
-        } finally {
-            System.setOut(originalOut);
-            System.setErr(originalErr);
-            logger.debug("System.out and System.err restored.");
+            return new ExecutionResult(-2, "", "");
         }
     }
 
@@ -191,16 +102,8 @@ public class SecurePropertiesToolAdapter implements SecurePropertiesToolRunner {
     private ExecutionResult applyHoleFile(SecurePropertiesConfig config) {
         logger.debug("Executing whole file operation...");
 
-        PrintStream originalOut = System.out;
-        PrintStream originalErr = System.err;
-
-        ByteArrayOutputStream outBuffer = new ByteArrayOutputStream();
-        ByteArrayOutputStream errBuffer = new ByteArrayOutputStream();
-
-        try (PrintStream out = new PrintStream(outBuffer);
-             PrintStream err = new PrintStream(errBuffer)) {
-
-            applyHoleFileFixed(
+        try {
+            securePropertiesToolWrapper.applyHoleFileFixed(
                     config.getAction().toString(),
                     config.getAlgorithm(),
                     config.getMode(),
@@ -210,37 +113,53 @@ public class SecurePropertiesToolAdapter implements SecurePropertiesToolRunner {
                     config.getOutputFile()
             );
 
-            logger.debug("File stdout:\n{}", outBuffer.toString());
-            logger.debug("File stderr:\n{}", errBuffer.toString());
-            logger.info("Operation completed successfully (file).");
-
-            return new ExecutionResult(0, outBuffer.toString(), errBuffer.toString());
-
+            logger.info("Operation completed successfully (whole file).");
+            return new ExecutionResult(0, "", "");
         } catch (Throwable t) {
             logger.error("File operation failed: {}", t.toString(), t);
-            return new ExecutionResult(-2, outBuffer.toString(), errBuffer.toString());
-        } finally {
-            System.setOut(originalOut);
-            System.setErr(originalErr);
-            logger.debug("System.out and System.err restored.");
+            return new ExecutionResult(-2, "", "");
         }
     }
-
-    private void applyHoleFileFixed(String string, String algorithm, String mode, String key, boolean useRandomIV, String inputFile, String outputFile) {
-//        String inputFilePath, String outputFilePath) throws IOException, MuleEncryptionException {
-//            File inputFile = new File(inputFilePath);
-//            InputStream stream = new FileInputStream(inputFile);
-//            byte[] bytes = IOUtils.toByteArray(stream);
-//            byte[] result;
-//            if (action.equals("encrypt")) {
-//                result = encrypt(bytes, algorithm, mode, key, useRandomIVs);
-//            } else {
-//                result = decrypt(bytes, algorithm, mode, key, useRandomIVs);
-//            }
 //
-//            FileUtils.writeByteArrayToFile(new File(outputFilePath), result);
-        return;
-    }
+//    private ExecutionResult applyHoleFileWithBug(SecurePropertiesConfig config) {
+//        logger.debug("Executing whole file operation...");
+//
+//        PrintStream originalOut = System.out;
+//        PrintStream originalErr = System.err;
+//
+//        ByteArrayOutputStream outBuffer = new ByteArrayOutputStream();
+//        ByteArrayOutputStream errBuffer = new ByteArrayOutputStream();
+//
+//        try (PrintStream out = new PrintStream(outBuffer);
+//             PrintStream err = new PrintStream(errBuffer)) {
+//
+//            SecurePropertiesTool.applyHoleFile(
+//                    config.getAction().toString(),
+//                    config.getAlgorithm(),
+//                    config.getMode(),
+//                    config.getKey(),
+//                    config.isUseRandomIV(),
+//                    config.getInputFile(),
+//                    config.getOutputFile()
+//            );
+//
+//            logger.debug("File stdout:\n{}", outBuffer.toString());
+//            logger.debug("File stderr:\n{}", errBuffer.toString());
+//            logger.info("Operation completed successfully (file).");
+//
+//            return new ExecutionResult(0, outBuffer.toString(), errBuffer.toString());
+//
+//        } catch (Throwable t) {
+//            logger.error("File operation failed: {}", t.toString(), t);
+//            return new ExecutionResult(-2, outBuffer.toString(), errBuffer.toString());
+//        } finally {
+//            System.setOut(originalOut);
+//            System.setErr(originalErr);
+//            logger.debug("System.out and System.err restored.");
+//        }
+//    }
+
+
 
 
 }

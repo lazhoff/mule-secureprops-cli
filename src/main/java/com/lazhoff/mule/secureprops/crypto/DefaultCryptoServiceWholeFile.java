@@ -31,13 +31,39 @@ public class DefaultCryptoServiceWholeFile implements ICryptoService {
 
     @Override
     public CryptoExecutionResult.Status encrypt() {
+        Path file = Path.of(config.getFilePath());
+        try {
+            if (isAlreadyEncrypted(file)) {
+                logger.warn("File {} appears to be already encrypted. Skipping encryption.", file);
+                return UNCHANGED;
+            }
+        } catch (IOException e) {
+            logger.error("Failed to read file for encryption check: {}", file, e);
+            return FAILED;
+        }
         return process(SecurePropertiesConfig.Action.ENCRYPT);
     }
 
     @Override
     public CryptoExecutionResult.Status decrypt() {
+        Path file = Path.of(config.getFilePath());
+        try {
+            if (!isAlreadyEncrypted(file)) {
+                logger.warn("File {} does not appear to be encrypted. Skipping decryption.", file);
+                return UNCHANGED;
+            }
+        } catch (IOException e) {
+            logger.error("Failed to read file for decryption check: {}", file, e);
+            return FAILED;
+        }
         return process(SecurePropertiesConfig.Action.DECRYPT);
     }
+
+    private boolean isAlreadyEncrypted(Path file) throws IOException {
+        String content = Files.readString(file).trim();
+        return content.startsWith("![") && content.endsWith("]");
+    }
+
 
     private CryptoExecutionResult.Status process(SecurePropertiesConfig.Action action) {
         Path file = Path.of(config.getFilePath());
@@ -98,5 +124,8 @@ public class DefaultCryptoServiceWholeFile implements ICryptoService {
             }
         }
     }
+
+
+
 }
 
