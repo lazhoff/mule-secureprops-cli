@@ -26,7 +26,7 @@ public class SecurePropertiesCLI {
         if (args.length < 7) {
             System.err.println("""
                 Usage:
-                  java -jar mule-secureprops-cli.jar <encrypt|decrypt> <file|file-level> <filePath> <algorithm> <mode> <useRandomIV:true|false> --envKeyMapping=(regex):(key),...
+                  java -jar mule-secureprops-cli.jar <encrypt|decrypt> <file|file-level> <folderPath> <algorithm> <mode> <useRandomIV:true|false> --envKeyMapping=(regex):(key),...
 
                 Optional:
                    [--dryRun] [--debug] [--noBackup] [--tmp=TempFolder]
@@ -36,7 +36,7 @@ public class SecurePropertiesCLI {
 
         String action = args[0].toLowerCase();               // encrypt or decrypt
         String fileOrLineArg = args[1].toLowerCase();        // file or file-level
-        String filePath = args[2];
+        String folderPath = args[2];
         String algorithm = args[3];
         String mode = args[4];
         boolean useRandomIV = Boolean.parseBoolean(args[5]);
@@ -65,7 +65,7 @@ public class SecurePropertiesCLI {
 
         CryptoConfig config = new CryptoConfig(
                 fileOrLine,
-                filePath,
+                folderPath,
                 algorithm,
                 mode,
                 "PLACEHOLDER", // Key will be resolved from envKeyMapping
