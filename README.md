@@ -28,7 +28,7 @@ For each file, the tool:
 
 Determines the encryption key based on the file name
 
-Selects the matching crypto engine (.yaml or .json)
+Selects the matching crypto engine (.yaml or .properties or .json)
 
 Applies encryption only to values matching the provided regex
 
@@ -67,35 +67,17 @@ java -jar mule-secureprops-cli.jar decrypt ./example.yaml AES CBC false
 - Maven dependencies must be available (e.g., via internet access or a
   pre-populated local repository) for the tests to run successfully.
 
-Before building from source, install the bundled Secure Properties Tool
-into your local Maven repository: 
-```sh
-mvn install:install-file ^
-  -Dfile=vendor/secure-properties-tool-j17.jar ^
-  -DgroupId=com.mulesoft.tools ^
-  -DartifactId=secure-properties-tool ^
-  -Dversion=1.0 ^
-  -Dpackaging=jar
-```
-
-
-
-This allows Maven to resolve the dependency declared in the `pom.xml`
-without needing internet access.
-
+  
 
 ## Installation
 
-Download the release archive 📦 [`secureprops-vx.y.z.zip`](https://github.com/lazhoff/mule-secureprops-cli/releases) and extract it to a utility folder of your choice:
-
-Examples:
-- `C:\tools\secureprops` on Windows
-- `~/utils/secureprops` on Linux/macOS
+Download the release archive 📦 [`secureprops-vx.y.z.zip`](https://github.com/lazhoff/mule-secureprops-cli/releases) and extract it into any temp folder or stay in Downloads:
+ 
 
 ### Step 1: Unpack the Archive
 
 ```
-secureprops/
+secureprops-v1.0.0
 ├── install.bat                  # Windows installer
 ├── install.sh                   # Linux/macOS installer
 ├── mule-secureprops-cli.jar     # Main executable JAR
