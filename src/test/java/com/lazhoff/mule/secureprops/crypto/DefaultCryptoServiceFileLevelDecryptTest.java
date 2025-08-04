@@ -35,8 +35,7 @@ class DefaultCryptoServiceFileLevelDecryptTest {
                 TempFileManager.getSystemPathDir(),
                 false,              // dryRun
                 false,              // debug
-                true,               // backup
-                ".*"                // regex (not used here)
+                true               // backup
         );
 
         ICryptoService service = new DefaultCryptoServiceFileLevel(config);

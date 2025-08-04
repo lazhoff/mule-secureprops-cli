@@ -1,14 +1,14 @@
 # Requirements
 
 ## Features
-- Encrypt or decrypt `.properties`, `.yaml` files and Postman `.json` collections
+- Encrypt or decrypt `.properties` and `.yaml` files, or process whole files
 - Works via CLI or cross-platform UI
 - Accepts single files or entire folders
 - Selects encryption key through environment variables (`keyForLocal`, `keyForDev`, `keyForProd`)
 - Requires Java 17+
 
 ## Input / Output
-- Only `.properties`, `.yaml` and `.json` files are processed
+- Only `.properties` and `.yaml` files are processed in file mode
 - Results are written in the same folder with `-encrypted`/`-decrypted` suffix
 - Each run produces a timestamped log
 - Optional report file for automation

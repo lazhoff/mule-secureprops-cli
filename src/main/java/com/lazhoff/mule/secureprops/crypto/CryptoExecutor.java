@@ -61,8 +61,7 @@ public class CryptoExecutor {
                         baseConfig.getTempFolder(),
                         baseConfig.isDryRun(),
                         baseConfig.isDebug(),
-                        baseConfig.isBackup(),
-                        baseConfig.getSecureAttributeNameRegex()
+                        baseConfig.isBackup()
                 );
 
                 ICryptoService service = resolveService(file, config);
@@ -125,18 +124,15 @@ public class CryptoExecutor {
     }
 
     private boolean isSupportedFileType(Path file) {
+        if (baseConfig.getFileOrLine() == CryptoConfig.FileOrLine.WHOLE_FILE) {
+            return true;
+        }
         String name = file.getFileName().toString().toLowerCase();
-        return isFileEndValid(name);
+        return isFileEndYamlValid(name);
     }
 
-    private static boolean isFileEndValid(String name) {
-        return isFileEndYamlValid(name) || isFileEndJsonValid(name);
-    }
-    private static boolean isFileEndJsonValid(String name) {
-        return name.endsWith(".json")  ;
-    }
     private static boolean isFileEndYamlValid(String name) {
-        return name.endsWith(".yaml") || name.endsWith(".properties") ;
+        return name.endsWith(".yaml") || name.endsWith(".properties");
     }
 
     private ICryptoService resolveService(Path file, CryptoConfig config) {
@@ -146,9 +142,7 @@ public class CryptoExecutor {
         }
 
         String name = file.getFileName().toString().toLowerCase();
-        if (isFileEndJsonValid(name)) {
-            return new DefaultCryptoServiceJson(config);
-        } else if (isFileEndYamlValid(name)) {
+        if (isFileEndYamlValid(name)) {
             return new DefaultCryptoServiceYaml(config);
         }
 

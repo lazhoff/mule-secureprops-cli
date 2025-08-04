@@ -41,9 +41,6 @@ public class CryptoConfig {
     private final boolean debug;
     private final boolean backup;
 
-
-    private final String secureAttributeNameRegex;
-
     private final FileOrLine fileOrLine;
 
     public CryptoConfig(
@@ -56,8 +53,7 @@ public class CryptoConfig {
             Path tempFolder,
             boolean dryRun,
             boolean debug,
-            boolean backup,
-            String secureAttributeNameRegex
+            boolean backup
     ) {
         this.filePath = filePath;
         this.algorithm = algorithm;
@@ -68,7 +64,6 @@ public class CryptoConfig {
         this.dryRun = dryRun;
         this.debug = debug;
         this.backup = backup;
-        this.secureAttributeNameRegex = secureAttributeNameRegex;
         this.fileOrLine = fileOrLine;
     }
 
@@ -106,10 +101,6 @@ public class CryptoConfig {
 
     public boolean isBackup() {
         return backup;
-    }
-
-    public String getSecureAttributeNameRegex() {
-        return secureAttributeNameRegex;
     }
 
     public FileOrLine getFileOrLine() {

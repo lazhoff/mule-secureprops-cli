@@ -35,8 +35,7 @@ class DefaultCryptoServiceYamlEncryptTest {
                 TempFileManager.getSystemPathDir(),
                 false,  // dryRun
                 false,  // debug
-                true,    // backup (ignored)
-                "value"
+                true    // backup (ignored)
         );
 
         ICryptoService service = new DefaultCryptoServiceYaml(config);

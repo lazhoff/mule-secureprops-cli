@@ -1,16 +1,15 @@
 # mule-secureprops-extension
 
-A command-line tool for secure encryption and decryption of YAML and JSON configuration files, extending MuleSoft's   
+A command-line tool for secure encryption and decryption of YAML and properties configuration files, extending MuleSoft's
 [MuleSoft's Secure Properties Tool](https://docs.mulesoft.com/mule-runtime/latest/secure-configuration-properties).
 
 
 ## Features
 
-- Supports **YAML** and **JSON** formats
-- Encrypts entire files or selected values
+- Supports **YAML** and **properties** formats
+- Encrypts whole files or YAML/Properties files
 - Uses file name masks to dynamically assign encryption keys
 - Supports recursive folder processing
-- Regex filtering for JSON/YAML property names
 - Compatible with Mule SecurePropertiesTool format
 
 ## Teaser
@@ -19,7 +18,6 @@ A command-line tool for secure encryption and decryption of YAML and JSON config
 java -jar mule-secureprops-cli.jar encrypt ./src/main/resource/config \
   AES CBC true \
   --envKeyMapping="(*.dev.*):(devKey123),(*.uat.*):(uatKey456)" \
-  --rex=".*(password|secret).*" \
   --dryRun
 ```
 
@@ -28,9 +26,7 @@ For each file, the tool:
 
 Determines the encryption key based on the file name
 
-Selects the matching crypto engine (.yaml or .properties or .json)
-
-Applies encryption only to values matching the provided regex
+Selects the matching crypto engine (.yaml or .properties)
 
 Creates .bak file unless --noBackup is used
 
@@ -39,7 +35,6 @@ Command-line Usage
 java -jar mule-secureprops-cli.jar <encrypt|decrypt> <fileOrFolderPath> \
   <algorithm> <mode> <useRandomIV> \
   [--envKeyMapping="(pattern):(key),(pattern2):(key2)"] \
-  [--rex="regex"] \
   [--dryRun] \
   [--debug] \
   [--tmp] \
@@ -48,13 +43,12 @@ java -jar mule-secureprops-cli.jar <encrypt|decrypt> <fileOrFolderPath> \
 
 
 ## Examples
-Encrypt JSON files in folder using regex:
+Encrypt a folder of configuration files:
 ```sh
 java -jar mule-secureprops-cli.jar encrypt ./secrets AES CBC false \
-  --envKeyMapping="(*.uat.*):(uatKey456)" \
-  --rex=".*password.*"
-Decrypt a YAML file
+  --envKeyMapping="(*.uat.*):(uatKey456)"
 ```
+Decrypt a YAML file:
 ```sh
 java -jar mule-secureprops-cli.jar decrypt ./example.yaml AES CBC false
 ```
@@ -148,7 +142,7 @@ Click Encrypt or Decrypt for either Postman or Properties.
 
 File preview appears on the right; logs are shown at the bottom.
 
-Click Settings to configure keys, regex, and encryption options.
+Click Settings to configure keys and encryption options.
 
 - CLI Mode (Advanced)
 You can run the CLI batch files in two ways:
@@ -180,8 +174,6 @@ It contains:
 
 Algorithm and mode (e.g., AES/CBC)
 
-Regex for detecting secure fields
-
 Environment-to-key mapping
 
 Last used folder
@@ -192,7 +184,7 @@ Last used folder
 
 ## General Notes
 **Postman Encrypt/Decrypt** → maps to file-level encryption
-Uses the Mule Secure Properties Tool in string mode, encrypting the entire JSON file as one block.
+Uses the Mule Secure Properties Tool in string mode, encrypting the entire file as one block.
 Output looks like:
 
 ```sh
