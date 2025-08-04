@@ -3,7 +3,7 @@
 A command-line tool for secure encryption and decryption of YAML and JSON configuration files, extending MuleSoft's   
 [MuleSoft's Secure Properties Tool](https://docs.mulesoft.com/mule-runtime/latest/secure-configuration-properties).
 
-	
+
 ## Features
 
 - Supports **YAML** and **JSON** formats
@@ -16,9 +16,8 @@ A command-line tool for secure encryption and decryption of YAML and JSON config
 ## Teaser
 
 ```sh
-java -jar mule-secureprops-extension.jar encrypt ./src/main/resource/config \
-  AES CBC \
-  dummyKey true \
+java -jar mule-secureprops-cli.jar encrypt ./src/main/resource/config \
+  AES CBC true \
   --envKeyMapping="(*.dev.*):(devKey123),(*.uat.*):(uatKey456)" \
   --rex=".*(password|secret).*" \
   --dryRun
@@ -37,8 +36,8 @@ Creates .bak file unless --noBackup is used
 
 Command-line Usage
 ```sh
-java -jar mule-secureprops-extension.jar <encrypt|decrypt> <fileOrFolderPath> \
-  <algorithm> <mode> <defaultKey> <useRandomIV> \
+java -jar mule-secureprops-cli.jar <encrypt|decrypt> <fileOrFolderPath> \
+  <algorithm> <mode> <useRandomIV> \
   [--envKeyMapping="(pattern):(key),(pattern2):(key2)"] \
   [--rex="regex"] \
   [--dryRun] \
@@ -51,13 +50,13 @@ java -jar mule-secureprops-extension.jar <encrypt|decrypt> <fileOrFolderPath> \
 ## Examples
 Encrypt JSON files in folder using regex:
 ```sh
-java -jar mule-secureprops-extension.jar encrypt ./secrets AES CBC dummyKey false \
+java -jar mule-secureprops-cli.jar encrypt ./secrets AES CBC false \
   --envKeyMapping="(*.uat.*):(uatKey456)" \
   --rex=".*password.*"
 Decrypt a YAML file
 ```
 ```sh
-java -jar mule-secureprops-extension.jar decrypt ./example.yaml AES CBC dummyKey false
+java -jar mule-secureprops-cli.jar decrypt ./example.yaml AES CBC false
 ```
 
 
@@ -81,10 +80,8 @@ mvn install:install-file ^
 
 
 
-
 This allows Maven to resolve the dependency declared in the `pom.xml`
 without needing internet access.
-
 
 
 ## Installation
@@ -153,7 +150,6 @@ encrypt-props.bat
 ```
 
 
-
 ## 3. How to Use
 - UI Mode (Recommended)
 Run:
@@ -181,7 +177,6 @@ You can run the CLI batch files in two ways:
 encrypt-postman.bat path\to\your\folder
 decrypt-props.bat   path\to\your\folder
 ```
-
 
 2. Use current directory
 

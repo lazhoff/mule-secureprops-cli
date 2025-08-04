@@ -26,7 +26,7 @@ public class SecurePropertiesToolAdapter implements SecurePropertiesToolRunner {
         logger.info("Running SecurePropertiesTool with type={}, action={}, algorithm={}, mode={}",
                 config.getType(), config.getAction(), config.getAlgorithm(), config.getMode());
 
-        logger.info("Configuration details:\n" +
+        logger.debug("Configuration details:\n" +
                         "  key           = {}\n" +
                         "  useRandomIV   = {}\n" +
                         "  inputString   = {}\n" +
@@ -34,6 +34,7 @@ public class SecurePropertiesToolAdapter implements SecurePropertiesToolRunner {
                         "  outputFile    = {}",
                 config.getKey(), config.isUseRandomIV(),
                 config.getInputString(), config.getInputFile(), config.getOutputFile());
+        logger.info("useRandomIV: ", config.isUseRandomIV());
 
         try {
             switch (config.getType()) {

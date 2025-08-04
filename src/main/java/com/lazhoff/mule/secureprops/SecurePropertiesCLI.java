@@ -26,7 +26,7 @@ public class SecurePropertiesCLI {
         if (args.length < 7) {
             System.err.println("""
                 Usage:
-                  java -jar secure-tool.jar <encrypt|decrypt> <file|file-level> <filePath> <algorithm> <mode> <useRandomIV:true|false> --envKeyMapping=(regex):(key),...
+                  java -jar mule-secureprops-cli.jar <encrypt|decrypt> <file|file-level> <filePath> <algorithm> <mode> <useRandomIV:true|false> --envKeyMapping=(regex):(key),...
 
                 Optional:
                    [--dryRun] [--debug] [--noBackup] [--rex=REGEX] [--tmp=TempFolder]

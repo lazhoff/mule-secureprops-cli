@@ -2,7 +2,7 @@
 setlocal EnableDelayedExpansion
 
 :: --------------------------------------------
-:: SecureProps Tool Installer (Windows - ASCII)
+:: SecureProps Tool Installer
 :: --------------------------------------------
 
 :: Define default installation directory
@@ -38,22 +38,10 @@ del /Q "%installDir%\*.sh"
 echo Setting environment variable securepropsHome...
 setx securepropsHome "%installDir%"
 
-REM :: Check if installDir is already in PATH
-REM echo Checking if install folder is in PATH...
-REM echo %PATH% | find /I "%installDir%" >nul
-REM if errorlevel 1 (
-REM     echo Adding "%installDir%" to PATH...
-REM     setx PATH "%PATH%;%installDir%"
-REM ) else (
-REM     echo Folder is already in PATH.
-REM )
-
-
 echo.
 echo Adding installDir to PATH...
 
 powershell -NoProfile -Command " $installDir = \"$env:installDir\"; $oldPath = [Environment]::GetEnvironmentVariable(\"PATH\", \"User\"); if (-not ($oldPath.Split(';') -contains $installDir)) { Write-Host 'Appending to PATH...'; [Environment]::SetEnvironmentVariable(\"PATH\", $oldPath + ';' + $installDir, \"User\") } else { Write-Host 'Install folder already in PATH.' } "
-
 
 :: Final instructions
 echo.
