@@ -1,4 +1,4 @@
-# mule-secureprops-extension
+# mule-secureprops-cli
 
 A command-line tool for secure encryption and decryption of YAML and properties configuration files, extending MuleSoft's
 [MuleSoft's Secure Properties Tool](https://docs.mulesoft.com/mule-runtime/latest/secure-configuration-properties).
