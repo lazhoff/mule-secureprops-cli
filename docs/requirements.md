@@ -3,7 +3,7 @@
 ## Features
 - Encrypt or decrypt `.properties`, `.yaml` files and Postman `.json` collections
 - Works via CLI or cross-platform UI
-- Accepts single files or entire folders
+- Accepts folders
 - Selects encryption key through environment variables (`keyForLocal`, `keyForDev`, `keyForProd`)
 - Requires Java 17+
 

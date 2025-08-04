@@ -35,6 +35,11 @@ public class CryptoExecutor {
             return List.of(new CryptoExecutionResult(root, FAILED, "Path does not exist", null));
         }
 
+        if (!Files.isDirectory(root)) {
+            logger.error("Path is not a directory: {}", root);
+            return List.of(new CryptoExecutionResult(root, FAILED, "Path is not a directory", null));
+        }
+
         try {
             List<Path> filesToProcess = Files.walk(root)
                     .filter(Files::isRegularFile)
@@ -141,7 +146,6 @@ public class CryptoExecutor {
 
     private ICryptoService resolveService(Path file, CryptoConfig config) {
         if (baseConfig.getFileOrLine() == CryptoConfig.FileOrLine.WHOLE_FILE) {
-        //    return new DefaultCryptoServiceFileLevel(config);
             return new DefaultCryptoServiceWholeFile(config);
         }
 

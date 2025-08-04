@@ -10,7 +10,7 @@ A command-line tool for secure encryption and decryption of YAML and JSON config
 - Encrypts entire files or selected values
 - Uses file name masks to dynamically assign encryption keys
 - Supports recursive folder processing
-- Regex filtering for JSON/YAML property names
+- Built-in regex filtering for JSON/YAML property names (password/secret)
 - Compatible with Mule SecurePropertiesTool format
 
 ## Teaser
@@ -19,7 +19,6 @@ A command-line tool for secure encryption and decryption of YAML and JSON config
 java -jar mule-secureprops-cli.jar encrypt ./src/main/resource/config \
   AES CBC true \
   --envKeyMapping="(*.dev.*):(devKey123),(*.uat.*):(uatKey456)" \
-  --rex=".*(password|secret).*" \
   --dryRun
 ```
 
@@ -30,16 +29,15 @@ Determines the encryption key based on the file name
 
 Selects the matching crypto engine (.yaml or .properties or .json)
 
-Applies encryption only to values matching the provided regex
+Applies encryption only to values matching a built-in password/secret regex
 
 Creates .bak file unless --noBackup is used
 
 Command-line Usage
 ```sh
-java -jar mule-secureprops-cli.jar <encrypt|decrypt> <fileOrFolderPath> \
+java -jar mule-secureprops-cli.jar <encrypt|decrypt> <folderPath> \
   <algorithm> <mode> <useRandomIV> \
   [--envKeyMapping="(pattern):(key),(pattern2):(key2)"] \
-  [--rex="regex"] \
   [--dryRun] \
   [--debug] \
   [--tmp] \
@@ -48,15 +46,14 @@ java -jar mule-secureprops-cli.jar <encrypt|decrypt> <fileOrFolderPath> \
 
 
 ## Examples
-Encrypt JSON files in folder using regex:
+Encrypt JSON files in a folder:
 ```sh
 java -jar mule-secureprops-cli.jar encrypt ./secrets AES CBC false \
-  --envKeyMapping="(*.uat.*):(uatKey456)" \
-  --rex=".*password.*"
-Decrypt a YAML file
+  --envKeyMapping="(*.uat.*):(uatKey456)"
 ```
+Decrypt YAML files in a folder:
 ```sh
-java -jar mule-secureprops-cli.jar decrypt ./example.yaml AES CBC false
+java -jar mule-secureprops-cli.jar decrypt ./configs AES CBC false
 ```
 
 
@@ -148,7 +145,7 @@ Click Encrypt or Decrypt for either Postman or Properties.
 
 File preview appears on the right; logs are shown at the bottom.
 
-Click Settings to configure keys, regex, and encryption options.
+Click Settings to configure keys and encryption options.
 
 - CLI Mode (Advanced)
 You can run the CLI batch files in two ways:

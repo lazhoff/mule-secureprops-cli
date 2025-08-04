@@ -281,7 +281,6 @@ public class MainUI {
                         if (settings.debug)   argsList.add("--debug");
                         if (!settings.backup) argsList.add("--noBackup");
                         argsList.add("--tmp=" + settings.lastFolder);
-                        argsList.add("--rex=" + settings.secureAttributeRegex);
 
                         return runCliSubprocess(Collections.unmodifiableList(argsList), this::publish);
                     } catch (Exception ex) {

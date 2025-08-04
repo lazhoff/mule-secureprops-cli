@@ -26,10 +26,10 @@ public class SecurePropertiesCLI {
         if (args.length < 7) {
             System.err.println("""
                 Usage:
-                  java -jar mule-secureprops-cli.jar <encrypt|decrypt> <file|file-level> <filePath> <algorithm> <mode> <useRandomIV:true|false> --envKeyMapping=(regex):(key),...
+                  java -jar mule-secureprops-cli.jar <encrypt|decrypt> <file|file-level> <folderPath> <algorithm> <mode> <useRandomIV:true|false> --envKeyMapping=(regex):(key),...
 
                 Optional:
-                   [--dryRun] [--debug] [--noBackup] [--rex=REGEX] [--tmp=TempFolder]
+                   [--dryRun] [--debug] [--noBackup] [--tmp=TempFolder]
                 """);
             System.exit(1);
         }
@@ -50,8 +50,8 @@ public class SecurePropertiesCLI {
         boolean dryRun = getFlag(args, "--dryRun");
         boolean debug = getFlag(args, "--debug");
         boolean backup = !getFlag(args, "--noBackup");
-        String regex = getValue(args, "--rex=", ".*");
         String tempDir = getValue(args, "--tmp=", TempFileManager.getSystemPathDir().toAbsolutePath().toString());
+        String regex = ".*(password|secret).*";
 
         logger.info("tempDir:{}",tempDir);
 

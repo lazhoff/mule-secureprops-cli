@@ -63,8 +63,8 @@ Run CLI mode:
     Examples:
         Encrypt folder:
             java -jar mule-secureprops-cli.jar encrypt-folder path/to/configs
-        Decrypt file:
-            java -jar mule-secureprops-cli.jar decrypt path/to/file.properties
+        Decrypt folder:
+            java -jar mule-secureprops-cli.jar decrypt-folder path/to/configs
 
 SCRIPTS INCLUDED
 ----------------
