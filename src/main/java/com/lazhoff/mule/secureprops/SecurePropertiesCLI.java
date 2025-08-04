@@ -26,17 +26,17 @@ public class SecurePropertiesCLI {
         if (args.length < 7) {
             System.err.println("""
                 Usage:
-                  java -jar mule-secureprops-cli.jar <encrypt|decrypt> <file|file-level> <filePath> <algorithm> <mode> <useRandomIV:true|false> --envKeyMapping=(regex):(key),...
+                  java -jar mule-secureprops-cli.jar <encrypt|decrypt> <file|file-level> <folderPath> <algorithm> <mode> <useRandomIV:true|false> --envKeyMapping=(regex):(key),...
 
                 Optional:
-                   [--dryRun] [--debug] [--noBackup] [--rex=REGEX] [--tmp=TempFolder]
+                   [--dryRun] [--debug] [--noBackup] [--tmp=TempFolder]
                 """);
             System.exit(1);
         }
 
         String action = args[0].toLowerCase();               // encrypt or decrypt
         String fileOrLineArg = args[1].toLowerCase();        // file or file-level
-        String filePath = args[2];
+        String folderPath = args[2];
         String algorithm = args[3];
         String mode = args[4];
         boolean useRandomIV = Boolean.parseBoolean(args[5]);
@@ -50,7 +50,6 @@ public class SecurePropertiesCLI {
         boolean dryRun = getFlag(args, "--dryRun");
         boolean debug = getFlag(args, "--debug");
         boolean backup = !getFlag(args, "--noBackup");
-        String regex = getValue(args, "--rex=", ".*");
         String tempDir = getValue(args, "--tmp=", TempFileManager.getSystemPathDir().toAbsolutePath().toString());
 
         logger.info("tempDir:{}",tempDir);
@@ -66,7 +65,7 @@ public class SecurePropertiesCLI {
 
         CryptoConfig config = new CryptoConfig(
                 fileOrLine,
-                filePath,
+                folderPath,
                 algorithm,
                 mode,
                 "PLACEHOLDER", // Key will be resolved from envKeyMapping
@@ -74,8 +73,7 @@ public class SecurePropertiesCLI {
                 Path.of(tempDir),
                 dryRun,
                 debug,
-                backup,
-                regex
+                backup
         );
 
         CryptoExecutor executor = new CryptoExecutor(action, config, envKeyMapping);

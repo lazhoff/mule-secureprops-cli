@@ -35,6 +35,11 @@ public class CryptoExecutor {
             return List.of(new CryptoExecutionResult(root, FAILED, "Path does not exist", null));
         }
 
+        if (!Files.isDirectory(root)) {
+            logger.error("Path is not a directory: {}", root);
+            return List.of(new CryptoExecutionResult(root, FAILED, "Path is not a directory", null));
+        }
+
         try {
             List<Path> filesToProcess = Files.walk(root)
                     .filter(Files::isRegularFile)
@@ -61,8 +66,7 @@ public class CryptoExecutor {
                         baseConfig.getTempFolder(),
                         baseConfig.isDryRun(),
                         baseConfig.isDebug(),
-                        baseConfig.isBackup(),
-                        baseConfig.getSecureAttributeNameRegex()
+                        baseConfig.isBackup()
                 );
 
                 ICryptoService service = resolveService(file, config);
@@ -125,30 +129,24 @@ public class CryptoExecutor {
     }
 
     private boolean isSupportedFileType(Path file) {
+        if (baseConfig.getFileOrLine() == CryptoConfig.FileOrLine.WHOLE_FILE) {
+            return true;
+        }
         String name = file.getFileName().toString().toLowerCase();
-        return isFileEndValid(name);
+        return isFileEndYamlValid(name);
     }
 
-    private static boolean isFileEndValid(String name) {
-        return isFileEndYamlValid(name) || isFileEndJsonValid(name);
-    }
-    private static boolean isFileEndJsonValid(String name) {
-        return name.endsWith(".json")  ;
-    }
     private static boolean isFileEndYamlValid(String name) {
-        return name.endsWith(".yaml") || name.endsWith(".properties") ;
+        return name.endsWith(".yaml") || name.endsWith(".properties");
     }
 
     private ICryptoService resolveService(Path file, CryptoConfig config) {
         if (baseConfig.getFileOrLine() == CryptoConfig.FileOrLine.WHOLE_FILE) {
-        //    return new DefaultCryptoServiceFileLevel(config);
             return new DefaultCryptoServiceWholeFile(config);
         }
 
         String name = file.getFileName().toString().toLowerCase();
-        if (isFileEndJsonValid(name)) {
-            return new DefaultCryptoServiceJson(config);
-        } else if (isFileEndYamlValid(name)) {
+        if (isFileEndYamlValid(name)) {
             return new DefaultCryptoServiceYaml(config);
         }
 
