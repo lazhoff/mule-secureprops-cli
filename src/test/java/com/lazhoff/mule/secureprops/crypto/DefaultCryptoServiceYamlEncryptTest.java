@@ -34,7 +34,6 @@ class DefaultCryptoServiceYamlEncryptTest {
                 false,  // useRandomIV
                 TempFileManager.getSystemPathDir(),
                 false,  // dryRun
-                false,  // debug
                 true    // backup (ignored)
         );
 

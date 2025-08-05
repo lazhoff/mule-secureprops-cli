@@ -36,7 +36,6 @@ java -jar mule-secureprops-cli.jar <encrypt|decrypt> <file|file-level> <folderPa
   <algorithm> <mode> <useRandomIV:true|false> \
   --envKeyMapping="(pattern):(key),(pattern2):(key2)" \
   [--dryRun] \
-  [--debug] \
   [--tmp=TempFolder] \
   [--noBackup]
 ```

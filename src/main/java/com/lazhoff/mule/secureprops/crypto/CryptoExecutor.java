@@ -65,7 +65,6 @@ public class CryptoExecutor {
                         baseConfig.isUseRandomIV(),
                         baseConfig.getTempFolder(),
                         baseConfig.isDryRun(),
-                        baseConfig.isDebug(),
                         baseConfig.isBackup()
                 );
 

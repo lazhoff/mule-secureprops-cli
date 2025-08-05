@@ -17,7 +17,7 @@
 ## CLI
 - Run with `java -jar mule-secureprops-cli.jar <encrypt|decrypt> <file|file-level> <folderPath> <algorithm> <mode> <useRandomIV>`
 - Map environment patterns to keys via `--envKeyMapping="(pattern):(key)"`
-- Optional flags: `--dryRun`, `--debug`, `--tmp=TempFolder`, `--noBackup`
+- Optional flags: `--dryRun`, `--tmp=TempFolder`, `--noBackup`
 -- Uses `securepropsHome` to locate defaults
 
 ## UI
