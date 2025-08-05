@@ -9,7 +9,6 @@ public class UISettings {
     public String lastFolder = "";
     public boolean backup = true;
     public boolean dryRun = false;
-    public boolean debug = false;
 
     public String envKeyMappingPostman = "(local.postman_environment.json):(0000123400001234),((dev|uat|test|mock).postman_environment.json):(0000123400001DEV),(.*.postman_collection.json):(000012340000DEV),(prod.postman_environment.json):(000012340000PROD)";
     public String envKeyMappingProperties = "(secure-config-local.yaml):(0000123400001234),(secure-config-(dev|uat).yaml):(0000123400001DEV),(secure-config-prod.yaml):(000012340000PROD)";
@@ -25,7 +24,6 @@ public class UISettings {
           "lastFolder": "%s",
           "backup": %s,
           "dryRun": %s,
-          "debug": %s,
           "envKeyMappingPostman": "%s",
           "envKeyMappingProperties": "%s",
           "algorithm": "%s",
@@ -33,7 +31,7 @@ public class UISettings {
           "useRandomIV": %s
         }
         """,
-                lastFolder, backup, dryRun, debug,
+                lastFolder, backup, dryRun,
                 envKeyMappingPostman, envKeyMappingProperties,
                 algorithm, mode, useRandomIV);
     }
@@ -42,7 +40,6 @@ public class UISettings {
         this.envKeyMappingPostman = other.envKeyMappingPostman;
         this.envKeyMappingProperties = other.envKeyMappingProperties;
         this.dryRun = other.dryRun;
-        this.debug = other.debug;
         this.backup = other.backup;
         this.algorithm = other.algorithm;
         this.mode = other.mode;

@@ -29,7 +29,6 @@ class DefaultCryptoServiceWholeFileEncryptTest {
                 false,
                 TempFileManager.getSystemPathDir(),
                 false,
-                false,
                 true
         );
 

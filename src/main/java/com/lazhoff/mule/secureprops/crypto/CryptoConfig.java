@@ -38,7 +38,6 @@ public class CryptoConfig {
     private final Path tempFolder;
 
     private final boolean dryRun;
-    private final boolean debug;
     private final boolean backup;
 
     private final FileOrLine fileOrLine;
@@ -52,7 +51,6 @@ public class CryptoConfig {
             boolean useRandomIV,
             Path tempFolder,
             boolean dryRun,
-            boolean debug,
             boolean backup
     ) {
         this.filePath = filePath;
@@ -62,7 +60,6 @@ public class CryptoConfig {
         this.useRandomIV = useRandomIV;
         this.tempFolder = tempFolder;
         this.dryRun = dryRun;
-        this.debug = debug;
         this.backup = backup;
         this.fileOrLine = fileOrLine;
     }
@@ -93,10 +90,6 @@ public class CryptoConfig {
 
     public boolean isDryRun() {
         return dryRun;
-    }
-
-    public boolean isDebug() {
-        return debug;
     }
 
     public boolean isBackup() {

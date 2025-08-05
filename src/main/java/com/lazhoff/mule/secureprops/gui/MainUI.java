@@ -278,7 +278,6 @@ public class MainUI {
                         argsList.add(Boolean.toString(settings.useRandomIV));
                         argsList.add("--envKeyMapping=" + (fileOrLine=="file-level" ? settings.envKeyMappingPostman: settings.envKeyMappingProperties));
                         if (settings.dryRun)  argsList.add("--dryRun");
-                        if (settings.debug)   argsList.add("--debug");
                         if (!settings.backup) argsList.add("--noBackup");
                         argsList.add("--tmp=" + settings.lastFolder);
 

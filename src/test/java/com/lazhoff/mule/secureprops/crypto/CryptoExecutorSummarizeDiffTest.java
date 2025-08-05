@@ -20,7 +20,6 @@ class CryptoExecutorSummarizeDiffTest {
                 false,
                 TempFileManager.getSystemPathDir(),
                 true,
-                false,
                 false
         );
 
