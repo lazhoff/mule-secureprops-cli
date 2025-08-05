@@ -26,7 +26,6 @@ class DefaultCryptoServiceWholeFileCBCTest {
                 false,
                 TempFileManager.getSystemPathDir(),
                 false,
-                false,
                 false
         );
 

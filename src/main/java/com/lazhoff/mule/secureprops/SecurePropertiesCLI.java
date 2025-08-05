@@ -8,8 +8,6 @@ import com.lazhoff.mule.secureprops.gui.MainUI;
 import com.lazhoff.mule.secureprops.util.TempFileManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.core.config.Configurator;
 
 import java.nio.file.Path;
 import java.util.List;
@@ -31,7 +29,7 @@ public class SecurePropertiesCLI {
                   java -jar mule-secureprops-cli.jar <encrypt|decrypt> <file|file-level> <folderPath> <algorithm> <mode> <useRandomIV:true|false> --envKeyMapping=(regex):(key),...
 
                 Optional:
-                   [--dryRun] [--debug] [--noBackup] [--tmp=TempFolder]
+                   [--dryRun] [--noBackup] [--tmp=TempFolder]
                 """);
             System.exit(1);
         }
@@ -50,10 +48,6 @@ public class SecurePropertiesCLI {
         }
 
         boolean dryRun = getFlag(args, "--dryRun");
-        boolean debug = getFlag(args, "--debug");
-        if (debug) {
-            Configurator.setLevel("com.lazhoff", Level.DEBUG);
-        }
         boolean backup = !getFlag(args, "--noBackup");
         String tempDir = getValue(args, "--tmp=", TempFileManager.getSystemPathDir().toAbsolutePath().toString());
 
@@ -77,7 +71,6 @@ public class SecurePropertiesCLI {
                 useRandomIV,
                 Path.of(tempDir),
                 dryRun,
-                debug,
                 backup
         );
 
