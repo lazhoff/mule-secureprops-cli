@@ -8,6 +8,8 @@ import com.lazhoff.mule.secureprops.gui.MainUI;
 import com.lazhoff.mule.secureprops.util.TempFileManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
 
 import java.nio.file.Path;
 import java.util.List;
@@ -49,6 +51,9 @@ public class SecurePropertiesCLI {
 
         boolean dryRun = getFlag(args, "--dryRun");
         boolean debug = getFlag(args, "--debug");
+        if (debug) {
+            Configurator.setLevel("com.lazhoff", Level.DEBUG);
+        }
         boolean backup = !getFlag(args, "--noBackup");
         String tempDir = getValue(args, "--tmp=", TempFileManager.getSystemPathDir().toAbsolutePath().toString());
 
